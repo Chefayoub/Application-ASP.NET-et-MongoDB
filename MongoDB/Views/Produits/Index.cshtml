@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MongoDB.Models.Produit>
+@{ 
+    ViewBag.Title = "Index"; 
+}
+<br /><br />
+
+<div style="margin-top:10px">
+    @Html.ActionLink("Create New", "CreationProduit", "Produit", new { @class = "btn btn-primary" })
+</div>
+
+
+<div style="margin-top:10px; margin-bottom:600px;">
+    <table class="table table-bordered table-hover" id="product">
+        <tr>
+            <th>Nom du produit</th>
+            <th>Numéro code-barre</th>
+            <th>Quantité</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr >
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomProduit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumerocodeBarre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantite)
+                </td>
+                <td>
+                    <a href="@Url.Action("UpdateProduit","Produit", new { productId = item.Id})" class="btn btn-warning">Update</a>
+                </td>
+                <td >
+                    @using (Html.BeginForm("DeleteProduit", "Produit", new { productId = item.Id }))
+                    {
+                          <button class="btn btn-danger"> Delete</button>
+                    }
+                </td>
+
+            </tr>}
+    </table>
+</div>
+
+@section scripts
+{
+    <script>$(document).ready(function () {
+
+            var pid = $("#delete").attr("data-product-id");
+
+            $("#delete").click(function () {
+
+                    $.ajax({
+
+                        url: "/Product/DeleteProduct/",
+                        type: "POST",
+                        data: { productId: pid },
+                        dataType: "json",
+                        success: function (result) {
+
+                            $("#product").closest("tr").remove();
+                        }
+                   });
+             });
+        });</script>
+
+}

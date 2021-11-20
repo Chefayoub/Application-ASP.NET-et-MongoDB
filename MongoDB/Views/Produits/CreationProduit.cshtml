@@ -1,0 +1,36 @@
+﻿@model MongoDB.Models.Produit
+
+@{
+    ViewBag.Title = "CreationProduit";
+}
+
+<h2>Creation Produit</h2>
+<br /><br />
+
+@using (Html.BeginForm())
+{
+<div class="col-md-12">
+    @Html.AntiForgeryToken() 
+    @Html.ValidationSummary()
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.Label("Nom du produit")
+        @Html.TextBoxFor(model => model.NomProduit, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.NomProduit)
+    </div>
+    <div class="form-group">
+        @Html.Label("Numero de code-barre")
+        @Html.TextBoxFor(model => model.NumerocodeBarre, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.NumerocodeBarre)
+    </div>
+    <div class="form-group">
+        @Html.Label("Quantité")
+        @Html.TextBoxFor(model => model.Quantite, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Quantite)
+    </div>
+
+    <input style="margin-bottom:400px;" type="submit" value="Save" class="btn btn-success" />
+
+</div>}
